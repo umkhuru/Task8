@@ -1,91 +1,95 @@
 package com.ramakhutla.ethon.chapter61.services.impl;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
-public class LoginServiceImpl extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "com.ramakhutla.ethon.chapter61.services.impl.action.FOO";
-    private static final String ACTION_BAZ = "com.ramakhutla.ethon.chapter61.services.impl.action.BAZ";
+import com.ramakhutla.ethon.chapter61.api.resource.LoginResource;
+import com.ramakhutla.ethon.chapter61.conf.util.App;
+import com.ramakhutla.ethon.chapter61.domain.LoginEmbeddableType;
+import com.ramakhutla.ethon.chapter61.repository.LoginRepository;
+import com.ramakhutla.ethon.chapter61.repository.impl.LoginRepositoryImpl;
+import com.ramakhutla.ethon.chapter61.services.LoginService;
+
+/*
+I am using the intent service why I am using it is that
+I am doing normal cruds which works on the database and I dont not
+need to use bound services because I am not looking for a quick respons I only
+need to know data has been updated or deleted or even new data has been added.
+*/
+
+public class LoginServiceImpl extends IntentService implements LoginService{
+    private final LoginRepository repository;
+
+    private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
+
+    private static final String ACTION_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.action.DELETE ";
 
     // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.ramakhutla.ethon.chapter61.services.impl.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.ramakhutla.ethon.chapter61.services.impl.extra.PARAM2";
+    private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
+
+
+    private static LoginServiceImpl service = null;
+
+    public static LoginServiceImpl getInstance() {
+        if (service == null)
+            service = new LoginServiceImpl();
+        return service;
+    }
 
     public LoginServiceImpl() {
         super("LoginServiceImpl");
+        repository = new LoginRepositoryImpl(App.getAppContext());
+
     }
 
-    /**
-     * Starts this service to perform action Foo with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionFoo(Context context, String param1, String param2) {
+
+
+
+    @Override
+    public void addLogin(Context context, LoginResource loginResource) {
         Intent intent = new Intent(context, LoginServiceImpl.class);
-        intent.setAction(ACTION_FOO);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.setAction(ACTION_ADD);
+        intent.putExtra(EXTRA_ADD, loginResource);
         context.startService(intent);
+
     }
 
-    /**
-     * Starts this service to perform action Baz with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionBaz(Context context, String param1, String param2) {
+    @Override
+    public void deleteLogin(Context context, LoginResource loginResource) {
         Intent intent = new Intent(context, LoginServiceImpl.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.putExtra(EXTRA_ADD, loginResource);
         context.startService(intent);
+
     }
+
+
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+            if (ACTION_ADD.equals(action)) {
+                final LoginResource loginResource = (LoginResource) intent.getSerializableExtra(EXTRA_ADD);
+                saveLogin(loginResource);
+            } else if (ACTION_DELETE.equals(action)) {
+                deleteLoginRecords();
             }
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionFoo(String param1, String param2) {
-        // TODO: Handle action Foo
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void deleteLoginRecords() {
+        repository.deleteAll();
     }
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void saveLogin( LoginResource loginResource) {
+        LoginEmbeddableType loginEmbeddableType = new LoginEmbeddableType.Builder()
+                .username(loginResource.getUsername())
+                .password(loginResource.getPassword())
+                .build();
+        LoginEmbeddableType saveLogin = repository.save(loginEmbeddableType);
+
     }
 }

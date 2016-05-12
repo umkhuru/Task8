@@ -2,6 +2,7 @@ package com.ramakhutla.ethon.chapter61.services;
 
 import android.content.Context;
 
+import com.ramakhutla.ethon.chapter61.api.resource.CustomerResource;
 import com.ramakhutla.ethon.chapter61.domain.CustomerType;
 
 /**
@@ -9,7 +10,8 @@ import com.ramakhutla.ethon.chapter61.domain.CustomerType;
  */
 public interface CustomerService {
 
-    void addCustomer(Context context, CustomerType customerType);
+    void addCustomer(Context context, CustomerResource customerResource);
 
-    void updateCustomer(Context context, CustomerType customerType);
+    void deleteCustomer(Context context, CustomerResource customerResource);
+
 }

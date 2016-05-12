@@ -44,9 +44,6 @@
             android:name=".services.impl.AddressServiceImpl"
             android:exported="false" />
         <service
-            android:name=".services.impl.LoginServiceImpl"
-            android:exported="false" />
-        <service
             android:name=".services.impl.CustomerServiceImpl"
             android:exported="false" />
         <service
@@ -63,7 +60,11 @@
             android:exported="false" />
         <service
             android:name=".services.impl.VehicleServiceImpl"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service
+            android:name=".services.impl.LoginServiceImpl"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
