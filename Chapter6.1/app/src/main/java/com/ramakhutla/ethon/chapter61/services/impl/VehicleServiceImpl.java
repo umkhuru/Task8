@@ -18,14 +18,17 @@ need to use bound services because I am not looking for a quick respons I only
 need to know data has been updated or deleted or even new data has been added.
 */
 public class VehicleServiceImpl extends IntentService implements VehicleService{
+
     private final VehicleTypeRepository repository;
 
     private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
-
+    private static final String ACTION_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.action.UPDATE";
     private static final String ACTION_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.action.DELETE ";
 
     // TODO: Rename parameters
     private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
+    private static final String EXTRA_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.extra.UPDATE";
+    private static final String EXTRA_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.extra.DELETE";
 
 
     private static VehicleServiceImpl service = null;
@@ -48,6 +51,15 @@ public class VehicleServiceImpl extends IntentService implements VehicleService{
         Intent intent = new Intent(context, VehicleServiceImpl.class);
         intent.setAction(ACTION_ADD);
         intent.putExtra(EXTRA_ADD, vehicleResource);
+        context.startService(intent);
+
+    }
+
+    @Override
+    public void updateVehicle(Context context, VehicleResource vehicleResource) {
+        Intent intent = new Intent(context, VehicleServiceImpl.class);
+        intent.setAction(ACTION_UPDATE);
+        intent.putExtra(EXTRA_UPDATE, vehicleResource);
         context.startService(intent);
 
     }
@@ -89,3 +101,4 @@ public class VehicleServiceImpl extends IntentService implements VehicleService{
     }
 
 }
+

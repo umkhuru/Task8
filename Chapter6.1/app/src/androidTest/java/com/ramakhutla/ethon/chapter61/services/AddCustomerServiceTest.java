@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.test.AndroidTestCase;
 
 /**
- * Created by Ethon on 5/8/2016.
+ * Created by Ethon on 6/7/2016.
  */
-public class CustomerServiceTest extends AndroidTestCase {
+public class AddCustomerServiceTest extends AndroidTestCase {
 
     @Override
     public void setUp() throws Exception {

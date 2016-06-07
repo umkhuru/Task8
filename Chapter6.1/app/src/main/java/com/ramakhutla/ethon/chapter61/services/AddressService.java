@@ -11,6 +11,8 @@ import com.ramakhutla.ethon.chapter61.domain.AddressEmbeddableType;
 public interface AddressService {
 
     void addAddress(Context context,AddressResource addressResource);
-
+    void updateAddress(Context context,AddressResource addressResource);
     void deleteAddress(Context context,  AddressResource addressResource);
+
+
 }

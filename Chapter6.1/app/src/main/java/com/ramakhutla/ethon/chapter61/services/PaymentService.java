@@ -10,7 +10,6 @@ import com.ramakhutla.ethon.chapter61.api.resource.PaymentResource;
 public interface PaymentService {
 
     void addPayment(Context context, PaymentResource paymentResource);
-
+    //void  updatePayment(Context context, PaymentResource paymentResource);
     void deletePayment(Context context, PaymentResource paymentResource);
-
 }

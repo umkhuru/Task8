@@ -20,81 +20,91 @@ I am doing normal cruds which works on the database and I dont not
 need to use bound services because I am not looking for a quick respons I only
 need to know data has been updated or deleted or even new data has been added.
 */
-public class CustomerServiceImpl extends IntentService implements CustomerService {
-
-    private final CustomerTypeRepository repository;
-
-    private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
-
-    private static final String ACTION_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.action.DELETE ";
-
-    // TODO: Rename parameters
-    private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
+public class CustomerServiceImpl  extends IntentService implements CustomerService {
 
 
-    private static CustomerServiceImpl service = null;
+   private final CustomerTypeRepository repository;
 
-    public static CustomerServiceImpl getInstance() {
-        if (service == null)
-            service = new CustomerServiceImpl();
-        return service;
-    }
+   private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
+   private static final String ACTION_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.action.UPDATE ";
+   private static final String ACTION_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.action.DELETE ";
 
-    public CustomerServiceImpl() {
-        super("CustomerServiceImpl");
-        repository = new CustomerTypeRepositoryImpl(App.getAppContext());
-
-    }
+   // TODO: Rename parameters
+   private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
+   private static final String EXTRA_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.extra.UPDATE";
 
 
+   private static CustomerServiceImpl service = null;
 
-
-    @Override
-    public void addCustomer(Context context, CustomerResource customerResource) {
-        Intent intent = new Intent(context, CustomerServiceImpl.class);
-        intent.setAction(ACTION_ADD);
-        intent.putExtra(EXTRA_ADD, customerResource);
-        context.startService(intent);
-
-    }
-
-    @Override
-    public void deleteCustomer(Context context, CustomerResource customerResource) {
-        Intent intent = new Intent(context, CustomerServiceImpl.class);
-        intent.setAction(ACTION_DELETE);
-        context.startService(intent);
-
-    }
-
-
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_ADD.equals(action)) {
-                final CustomerResource customerResource = (CustomerResource) intent.getSerializableExtra(EXTRA_ADD);
-                saveCustomer(customerResource);
-            } else if (ACTION_DELETE.equals(action)) {
-                deleteCustomerRecords();
-            }
-        }
-    }
-
-    private void deleteCustomerRecords() {
-        repository.deleteAll();
-    }
-
-    private void saveCustomer(CustomerResource customerResource) {
-        CustomerType customer = new CustomerType.Builder()
-                .lastName(customerResource.getLastName())
-                .firstName(customerResource.getFirstName())
-                .phoneNumber(customerResource.getPhoneNumber())
-                //.addressEmbeddabletype(customerResource.getAddressEmbeddabletype())
-                //.loginEmbeddabletype(customerResource.getLoginEmbeddabletype())
-                //.rentals(customerResource.getRentalsType())
-                .build();
-        CustomerType saveCustomer = repository.save(customer);
-
-    }
+   public static CustomerServiceImpl getInstance() {
+      if (service == null)
+         service = new CustomerServiceImpl();
+      return service;
    }
+
+   public CustomerServiceImpl() {
+      super("CustomerServiceImpl");
+      repository = new CustomerTypeRepositoryImpl(App.getAppContext());
+
+   }
+
+
+
+
+   @Override
+   public void addCustomer(Context context, CustomerResource customerResource) {
+      Intent intent = new Intent(context, CustomerServiceImpl.class);
+      intent.setAction(ACTION_ADD);
+      intent.putExtra(EXTRA_ADD, customerResource);
+      context.startService(intent);
+
+   }
+
+   @Override
+   public void updateCustomer(Context context, CustomerResource customerResource) {
+      Intent intent = new Intent(context, CustomerServiceImpl.class);
+      intent.setAction(ACTION_UPDATE);
+      intent.putExtra(EXTRA_UPDATE, customerResource);
+      context.startService(intent);
+   }
+
+   @Override
+   public void deleteCustomer(Context context, CustomerResource customerResource) {
+      Intent intent = new Intent(context, CustomerServiceImpl.class);
+      intent.setAction(ACTION_DELETE);
+      context.startService(intent);
+
+   }
+
+
+
+   @Override
+   protected void onHandleIntent(Intent intent) {
+      if (intent != null) {
+         final String action = intent.getAction();
+         if (ACTION_ADD.equals(action)) {
+            final CustomerResource customerResource = (CustomerResource) intent.getSerializableExtra(EXTRA_ADD);
+            saveCustomer(customerResource);
+         } else if (ACTION_DELETE.equals(action)) {
+            deleteCustomerRecords();
+         }
+      }
+   }
+
+   private void deleteCustomerRecords() {
+      repository.deleteAll();
+   }
+
+   private void saveCustomer(CustomerResource customerResource) {
+      CustomerType customer = new CustomerType.Builder()
+              .lastName(customerResource.getLastName())
+              .firstName(customerResource.getFirstName())
+              .phoneNumber(customerResource.getPhoneNumber())
+              //.addressEmbeddabletype(customerResource.getAddressEmbeddabletype())
+              //.loginEmbeddabletype(customerResource.getLoginEmbeddabletype())
+              //.rentals(customerResource.getRentalsType())
+              .build();
+      CustomerType saveCustomer = repository.save(customer);
+
+   }
+}

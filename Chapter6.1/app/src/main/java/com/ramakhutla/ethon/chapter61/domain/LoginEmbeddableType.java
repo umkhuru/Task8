@@ -97,4 +97,9 @@ public class LoginEmbeddableType implements Serializable {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
     }
+
+    public String toString()
+    {
+        return String.format("Id : %d\nUsername :%s\nPassWord :%s",id,username,password);
+    }
 }

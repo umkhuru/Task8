@@ -18,14 +18,16 @@ need to use bound services because I am not looking for a quick respons I only
 need to know data has been updated or deleted or even new data has been added.
 */
 public class PaymentServiceImpl extends IntentService implements PaymentService{
+
     private final PaymentMethodTypeRepository repository;
 
     private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
-
+    //private static final String ACTION_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.action.UPDATE";
     private static final String ACTION_DELETE = "com.ramakhutla.ethon.chapter61.services.impl.action.DELETE ";
 
     // TODO: Rename parameters
     private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
+
 
 
     private static PaymentServiceImpl service = null;
@@ -86,3 +88,4 @@ public class PaymentServiceImpl extends IntentService implements PaymentService{
 
     }
 }
+

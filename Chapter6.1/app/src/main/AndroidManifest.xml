@@ -64,6 +64,15 @@
         <service
             android:name=".services.impl.LoginServiceImpl"
             android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".Main3Activity" />
+        <activity android:name=".Main4Activity" />
+
+        <service
+            android:name=".services.impl.EnginServiceImpl"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 

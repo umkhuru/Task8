@@ -11,7 +11,7 @@ import com.ramakhutla.ethon.chapter61.domain.CustomerType;
 public interface CustomerService {
 
     void addCustomer(Context context, CustomerResource customerResource);
-
+    void updateCustomer(Context context, CustomerResource customerResource);
     void deleteCustomer(Context context, CustomerResource customerResource);
 
 }

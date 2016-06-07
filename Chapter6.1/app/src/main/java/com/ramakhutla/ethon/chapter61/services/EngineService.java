@@ -10,7 +10,5 @@ import com.ramakhutla.ethon.chapter61.domain.EngineSizeEmbeddableType;
  */
 public interface EngineService {
 
-    void addEngine(Context context, EngineResource engineResource);
-    //void updateEngine(Context context, EngineSizeEmbeddableType engineSizeEmbeddableType);
-    void deleteEngine(Context context, EngineResource engineResource);
+    boolean duplicateCheck(String EngineSize);
 }

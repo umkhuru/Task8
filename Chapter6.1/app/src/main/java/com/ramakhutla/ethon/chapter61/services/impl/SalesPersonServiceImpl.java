@@ -17,6 +17,7 @@ need to use bound services because I am not looking for a quick respons I only
 need to know data has been updated or deleted or even new data has been added.
 */
 public class SalesPersonServiceImpl extends IntentService implements SalesPersonService{
+
     private final SalesPersonTypeRepositoryImpl repository;
 
     private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
@@ -41,7 +42,7 @@ public class SalesPersonServiceImpl extends IntentService implements SalesPerson
     }
 
     @Override
-    public void addLogin(Context context, SalesPersonResource salesPersonResource) {
+    public void addSales(Context context, SalesPersonResource salesPersonResource) {
         Intent intent = new Intent(context, SalesPersonServiceImpl.class);
         intent.setAction(ACTION_ADD);
         intent.putExtra(EXTRA_ADD, salesPersonResource);
@@ -50,12 +51,13 @@ public class SalesPersonServiceImpl extends IntentService implements SalesPerson
     }
 
     @Override
-    public void deleteLogin(Context context, SalesPersonResource salesPersonResource) {
+    public void deleteSales(Context context, SalesPersonResource salesPersonResource) {
         Intent intent = new Intent(context, SalesPersonServiceImpl.class);
         intent.setAction(ACTION_DELETE);
         context.startService(intent);
 
     }
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -86,3 +88,7 @@ public class SalesPersonServiceImpl extends IntentService implements SalesPerson
     }
 
 }
+
+
+
+

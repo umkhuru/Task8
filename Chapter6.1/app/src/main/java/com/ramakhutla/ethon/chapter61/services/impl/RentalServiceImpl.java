@@ -18,6 +18,7 @@ need to use bound services because I am not looking for a quick respons I only
 need to know data has been updated or deleted or even new data has been added.
 */
 public class RentalServiceImpl extends IntentService implements RentalService{
+
     private final RentalTypeRepository repository;
 
     private static final String ACTION_ADD = "com.ramakhutla.ethon.chapter61.services.impl.action.ADD";
@@ -85,3 +86,5 @@ public class RentalServiceImpl extends IntentService implements RentalService{
 
     }
 }
+
+

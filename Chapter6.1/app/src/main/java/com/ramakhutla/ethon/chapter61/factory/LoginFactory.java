@@ -10,32 +10,12 @@ public class LoginFactory {
 
     public static LoginEmbeddableType getLogin(String username, String password)
     {
-        return new LoginEmbeddableType.Builder()
+         LoginEmbeddableType mylogin = new LoginEmbeddableType.Builder()
                 .username(username)
                 .password(password)
                 .build();
+
+        return mylogin;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*public static Settings getSettings(String email,String orgCode,String password){
-        return new Settings.Builder()
-                .username(email)
-                .password(password)
-                .code(orgCode)
-                .build();
-
-    }*/
 }

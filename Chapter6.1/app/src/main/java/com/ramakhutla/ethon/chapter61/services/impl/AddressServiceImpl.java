@@ -31,6 +31,7 @@ public class AddressServiceImpl extends IntentService implements AddressService{
     // TODO: Rename parameters
     private static final String EXTRA_ADD = "com.ramakhutla.ethon.chapter61.services.impl.extra.ADD";
     private static final String EXTRA_UPDATE = "com.ramakhutla.ethon.chapter61.services.impl.extra.UPDATE";
+    private static final String EXTRA_DELETE  = "com.ramakhutla.ethon.chapter61.services.impl.extra.DELETE ";
 
 
     private static AddressServiceImpl service = null;
@@ -55,12 +56,19 @@ public class AddressServiceImpl extends IntentService implements AddressService{
         context.startService(intent);
     }
 
-
+    @Override
+    public void updateAddress(Context context, AddressResource addressResource) {
+        Intent intent = new Intent(context, AddressServiceImpl.class);
+        intent.setAction(ACTION_UPDATE);
+        intent.putExtra(EXTRA_UPDATE, addressResource);
+        context.startService(intent);
+    }
 
     @Override
     public void deleteAddress(Context context, AddressResource addressResource) {
         Intent intent = new Intent(context, AddressServiceImpl.class);
         intent.setAction(ACTION_DELETE);
+        intent.putExtra(EXTRA_UPDATE, addressResource);
         context.startService(intent);
 
     }
@@ -97,3 +105,5 @@ public class AddressServiceImpl extends IntentService implements AddressService{
 
 
 }
+
+
